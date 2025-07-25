@@ -17,7 +17,7 @@ const ProductSchema = new Schema({
   status: {
     type: String,
     enum: [
-      "order Placed",
+      "Order Placed",
       "Shipping",
       "Out for Delivery",
       "Delivery",
