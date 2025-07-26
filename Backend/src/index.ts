@@ -6,6 +6,7 @@ import productRoutes from "./routes/product";
 import orderRoutes from "./routes/order";
 import connectDB from "./config/connect";
 import { PORT } from "./config/config";
+import { buildAdminJs } from "./config/adminPannel";
 
 dotenv.config();
 
@@ -14,6 +15,10 @@ const app = express();
 
 app.use(express.json());
 connectDB(process.env.MONGODB_URL);
+
+// Admin Pannel
+buildAdminJs(app);
+
 // Routes
 app.use("/user", userRoutes);
 app.use("/category", categoryRoutes);
@@ -25,5 +30,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}/admin`);
 });
