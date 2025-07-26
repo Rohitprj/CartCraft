@@ -3,6 +3,7 @@ import Razorpay from "razorpay";
 import crypto from "crypto";
 import Transaction from "../models/transactionSchema";
 import Order from "../models/orderSchema";
+import User from "../models/userSchems";
 
 const createTransaction = async (req: Request, res: Response) => {
   const { amount, userId } = req.body;
@@ -58,6 +59,12 @@ const createOrder = async (req: Request, res: Response) => {
 
   const key_secret = process.env.RAZOR_PAY_SECRET;
 
+  if (!key_secret) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Razorpay secret key not configured" });
+  }
+
   const generated_signature = crypto
     .createHmac("sha256", key_secret)
     .update(razorpay_order_id + "|" + razorpay_payment_id)
@@ -71,7 +78,7 @@ const createOrder = async (req: Request, res: Response) => {
         paymentId: razorpay_payment_id,
         status: "Success",
         amount: cartItems.reduce(
-          (total, item) => total + item?.quantity * item.price,
+          (total: number, item: any) => total + item?.quantity * item.price,
           0
         ),
       });
@@ -80,7 +87,7 @@ const createOrder = async (req: Request, res: Response) => {
         user: userId,
         deliveryDate,
         address,
-        item: cartItems?.map((item) => ({
+        item: cartItems?.map((item: any) => ({
           product: item?._id,
           quantity: item?.quantity,
         })),
@@ -105,4 +112,32 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 
-export { createOrder, createTransaction };
+const getOrdersByUserId = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  try {
+    const orders = await User.find({ user: userId })
+      .populate("user", "name email")
+      .populate("items.product", "name price image_uri ar_uri")
+      .sort({ createdAt: -1 });
+
+    if (!orders || orders.length === 0) {
+      res.status(404).json({
+        success: false,
+        message: "No order found for this user",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    const err = error as Error;
+    res.status(500).json({
+      status: "failed",
+      message: "Failed to retrieve order",
+      error: err.message,
+    });
+  }
+};
+
+export { createOrder, createTransaction, getOrdersByUserId };
