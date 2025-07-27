@@ -1,14 +1,29 @@
+// {
+//   "compilerOptions": {
+//     "target": "ES2020",
+//     "module": "CommonJS",         
+//     "outDir": "dist",
+//     "rootDir": "src",
+//     "strict": true,
+//     "esModuleInterop": true,
+//     "allowSyntheticDefaultImports": true,
+//     "skipLibCheck": true,
+//     "resolveJsonModule": true,
+//     "typeRoots": ["./types", "./node_modules/@types"]
+//   }
+// }
+
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "CommonJS",         
-    "outDir": "dist",
-    "rootDir": "src",
-    "strict": true,
+    "target": "ES6",
+    "module": "commonjs",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "typeRoots": ["./types", "./node_modules/@types"]
-  }
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["src"]
 }
