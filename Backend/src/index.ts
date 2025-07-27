@@ -6,7 +6,7 @@ import productRoutes from "./routes/product";
 import orderRoutes from "./routes/order";
 import connectDB from "./config/connect";
 import { PORT } from "./config/config";
-import { buildAdminJs } from "./config/adminPannel";
+// import { buildAdminJs } from "./config/adminPannel";
 
 dotenv.config();
 
@@ -17,7 +17,7 @@ app.use(express.json());
 connectDB(process.env.MONGODB_URL);
 
 // Admin Pannel
-buildAdminJs(app);
+// buildAdminJs(app);
 
 // Routes
 app.use("/user", userRoutes);
