@@ -10,5 +10,5 @@ const router = express.Router();
 
 router.post("/", createOrder);
 router.post("/transaction", createTransaction);
-router.post("/:userId", getOrdersByUserId);
+router.get("/:userId", getOrdersByUserId);
 export default router;

@@ -115,7 +115,7 @@ const createOrder = async (req: Request, res: Response) => {
 const getOrdersByUserId = async (req: Request, res: Response) => {
   const { userId } = req.params;
   try {
-    const orders = await User.find({ user: userId })
+    const orders = await Order.find({ user: userId })
       .populate("user", "name email")
       .populate("items.product", "name price image_uri ar_uri")
       .sort({ createdAt: -1 });

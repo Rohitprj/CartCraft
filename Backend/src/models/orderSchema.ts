@@ -13,7 +13,7 @@ const ProductSchema = new Schema({
   user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
   deliveryDate: { type: Date, required: true },
   address: { type: String },
-  item: { type: [ItemSchema], required: true },
+  items: { type: [ItemSchema], required: true },
   status: {
     type: String,
     enum: [
