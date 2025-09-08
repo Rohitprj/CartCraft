@@ -87,7 +87,7 @@ const createOrder = async (req: Request, res: Response) => {
         user: userId,
         deliveryDate,
         address,
-        item: cartItems?.map((item: any) => ({
+        items: cartItems?.map((item: any) => ({
           product: item?._id,
           quantity: item?.quantity,
         })),
